@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:bookReader.properties"/>
+
+    <bean id="beansLess"
+          class="ru.khachalov.spring.beans.BeansLess"
+          scope="prototype"
+          init-method="initMethod"
+          destroy-method="destroyMethod">
+
+        <constructor-arg value="Umar"/>
+
+    </bean>
+
+    <bean id="bookBean"
+          class="ru.khachalov.spring.ioctest.TechBook">
+    </bean>
+
+    <bean id="bookReader"
+          class="ru.khachalov.spring.ioctest.BookReader">
+        <constructor-arg ref="bookBean"/>
+    </bean>
+
+    <bean id="bookBeanBySetter"
+          class="ru.khachalov.spring.iocbysetter.TechBook">
+    </bean>
+
+    <bean id="bookReaderBySetter"
+          class="ru.khachalov.spring.iocbysetter.BookReader">
+        <property name="books" ref="bookBeanBySetter"/>
+        <property name="name" value="${bookReader.name}"/>
+        <property name="volume" value="${bookReader.volume}"/>
+    </bean>
+
+
+    <bean id="bookBeanHWtech"
+          class="ru.khachalov.spring.iocHW.TechBook">
+    </bean>
+
+    <bean id="bookBeanHWhud"
+          class="ru.khachalov.spring.iocHW.HudBook">
+    </bean>
+
+    <bean id="bookBeanHWgeo"
+          class="ru.khachalov.spring.iocHW.GeographyBook">
+    </bean>
+
+
+    <bean id="bookReaderByHW"
+          class="ru.khachalov.spring.iocHW.BookReader">
+        <property name="books">
+            <list>
+                <ref bean="bookBeanHWgeo"/>
+                <ref bean="bookBeanHWhud"/>
+                <ref bean="bookBeanHWtech"/>
+            </list>
+        </property>
+        <property name="name" value="${bookReader.name}"/>
+        <property name="volume" value="${bookReader.volume}"/>
+    </bean>
+
+
+</beans>
